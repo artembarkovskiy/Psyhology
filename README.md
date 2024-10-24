@@ -1,2 +1,8 @@
-# Psyhology
-The project is done with all the soul. It will be possible to enter the site from an administrator and an ordinary user. The administrator can create articles and accept entries. The user can comment on articles and make an appointment with a psychologist. The project is being developed by Artem Barkovsky and Maxim Nikolaychuk.
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
