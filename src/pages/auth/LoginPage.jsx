@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const users = [
@@ -20,23 +20,17 @@ const LoginPage = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUserNameInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleUserNameInputChange = (event) => {
     setUserName(event.target.value);
   };
 
-  const handlePasswordInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handlePasswordInputChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event: HTMLFormElement) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    // API call to authenticate user
-
-    // Simulate API call
+    
     const user = users.find((user) => user.userName === userName);
 
     if (!user) {
@@ -51,18 +45,20 @@ const LoginPage = () => {
 
     localStorage.setItem("user", JSON.stringify(user));
 
-    // Redirect user based on role
     if (user.role === "admin") {
       navigate("/users");
-
       return;
     }
 
     if (user.role === "user") {
       navigate("/");
-
       return;
     }
+  };
+
+  // Обробник для переходу на сторінку реєстрації
+  const handleRegisterRedirect = () => {
+    navigate("/register");
   };
 
   return (
@@ -97,7 +93,7 @@ const LoginPage = () => {
             <label htmlFor="password">Password</label>
             <input
               id="password"
-              name="paswword"
+              name="password"
               type="password"
               value={password}
               onChange={handlePasswordInputChange}
@@ -105,6 +101,19 @@ const LoginPage = () => {
           </div>
           <button type="submit">Login</button>
         </form>
+        <button 
+          onClick={handleRegisterRedirect}
+          style={{
+            marginTop: "1em",
+            padding: "0.5em 1em",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Бажаєте зареєструватися?
+        </button>
       </div>
     </div>
   );
