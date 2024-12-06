@@ -1,19 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const users = [
-  {
-    userName: "admin",
-    password: "admin",
-    role: "admin",
-  },
-  {
-    userName: "user",
-    password: "user",
-    role: "user",
-  },
-];
-
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -30,7 +17,7 @@ const LoginPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     const user = users.find((user) => user.userName === userName);
 
     if (!user) {
@@ -101,7 +88,7 @@ const LoginPage = () => {
           </div>
           <button type="submit">Login</button>
         </form>
-        <button 
+        <button
           onClick={handleRegisterRedirect}
           style={{
             marginTop: "1em",

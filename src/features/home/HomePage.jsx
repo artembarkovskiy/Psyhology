@@ -18,7 +18,7 @@ const HomePage = () => {
   };
 
   const handleRegisterClick = () => {
-    navigate("/register");
+    navigate("/registration");
   };
 
   return (
