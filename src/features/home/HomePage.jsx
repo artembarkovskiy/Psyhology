@@ -12,11 +12,11 @@ const HomePage = () => {
     const fetchUserProfile = () => {
       try {
         const userService = new UserService();
-        const profile = userService.getUserProfile(); // Виклик асинхронного методу
-        setUser(profile); // Збереження email з профілю
+        const profile = userService.getUserProfile();
+        setUser(profile);
       } catch (error) {
         console.error("Не вдалося завантажити профіль користувача:", error);
-        navigate("/login"); // Перенаправлення на сторінку входу, якщо сталася помилка
+        navigate("/login");
       }
     };
 
@@ -28,8 +28,8 @@ const HomePage = () => {
   };
 
   const handleLogout = () => {
-    setToken(undefined); // Видалення токена\
-    navigate("/login"); // Перенаправлення на сторінку логіну
+    setToken(undefined);
+    navigate("/login");
   };
 
   return (
@@ -44,7 +44,7 @@ const HomePage = () => {
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <h2 style={{ margin: 0 }}>My Website</h2>
+        <h2 style={{ margin: 0, color: "black" }}>My Website</h2>
 
         <div style={{ display: "flex", alignItems: "center" }}>
           {user.email && (
@@ -122,6 +122,43 @@ const HomePage = () => {
       <main style={{ padding: "2em", textAlign: "center" }}>
         <h1>Головна сторінка</h1>
         <p>Ласкаво просимо на головну сторінку вашого сайту!</p>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "1em",
+            marginTop: "2em",
+          }}
+        >
+          <button
+            onClick={() => navigate("/category")}
+            style={{
+              padding: "0.5em 1em",
+              backgroundColor: "#28a745",
+              color: "#fff",
+              border: "none",
+              cursor: "pointer",
+              borderRadius: "5px",
+            }}
+          >
+            Категорії
+          </button>
+
+          <button
+            onClick={() => navigate("/service")}
+            style={{
+              padding: "0.5em 1em",
+              backgroundColor: "#17a2b8",
+              color: "#fff",
+              border: "none",
+              cursor: "pointer",
+              borderRadius: "5px",
+            }}
+          >
+            Сервіси
+          </button>
+        </div>
       </main>
     </div>
   );

@@ -31,7 +31,7 @@ const LoginPage = () => {
 
     if (response && response.token) {
       setToken(response.token);
-      navigate("/home"); // Перенаправлення на сторінку /home
+      navigate("/"); // Перенаправлення на сторінку /home
     } else {
       alert("Login failed. Please check your credentials.");
     }
