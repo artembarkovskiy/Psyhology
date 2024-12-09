@@ -12,6 +12,7 @@ const RegPage = () => {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
