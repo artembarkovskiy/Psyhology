@@ -1,45 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserService } from "../user/user.service";
+import { setToken } from "../../utils/localStorage";
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUserNameInputChange = (event) => {
-    setUserName(event.target.value);
+  const handleEmailInputChange = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordInputChange = (event) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const user = users.find((user) => user.userName === userName);
+    const userService = new UserService()
 
-    if (!user) {
-      alert("User does not exist");
-      return;
-    }
+    const response = await userService.loginUser({
+      email:email, 
+      password:password
+    })
 
-    if (user.password !== password) {
-      alert("Invalid password");
-      return;
-    }
+    console.log(response)
+    
+    if(response){
+      setToken(response.token)
 
-    localStorage.setItem("user", JSON.stringify(user));
-
-    if (user.role === "admin") {
-      navigate("/users");
-      return;
-    }
-
-    if (user.role === "user") {
-      navigate("/");
-      return;
     }
   };
 
@@ -67,13 +59,13 @@ const LoginPage = () => {
       >
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-              id="username"
-              name="username"
-              type="text"
-              value={userName}
-              onChange={handleUserNameInputChange}
+              id="email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={handleEmailInputChange}
             />
           </div>
           <div>

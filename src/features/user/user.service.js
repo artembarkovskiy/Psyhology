@@ -20,4 +20,8 @@ export class UserService {
   async deleteUserById(id) {
     return await this.httpClient.delete(`/${id}`);
   }
+
+  async loginUser(data) {
+    return await this.httpClient.post("/login", data);
+  }
 }
