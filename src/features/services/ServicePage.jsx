@@ -15,7 +15,7 @@ const ServicePage = () => {
         setServices(data);
         setLoading(false);
       } catch (err) {
-        setError("Не вдалося завантажити сервіси.");
+        setError("Не вдалося завантажити послуги.");
         setLoading(false);
       }
     };

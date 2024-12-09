@@ -1,16 +1,23 @@
-import axios from "axios";
+import { HttpClient } from "../../utils/http/httpClient";
 
-class UserService {
-  constructor() {
-    this.api = axios.create({
-      baseURL: "http://localhost:5054/users", // Replace with your API URL
+export class UserService {
+  constructor(signal) {
+    this.httpClient = new HttpClient({
+      baseURL: "http://localhost:5054/users",
       timeout: 10000,
+      signal,
     });
+  }
+
+  async getAllUsers() {
+    return await this.httpClient.get("");
   }
 
   async createUser(user) {
     return await this.httpClient.post("", user);
   }
-}
 
-export const userService = new UserService();
+  async deleteUserById(id) {
+    return await this.httpClient.delete(`/${id}`);
+  }
+}

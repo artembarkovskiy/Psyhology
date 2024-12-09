@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userService } from "../user/user.service";
+import { UserService } from "../user/user.service";
 
 const RegPage = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +23,10 @@ const RegPage = () => {
     setSuccess(false);
 
     try {
-      await userService.createUser(formData);
+      const userService = new UserService();
+      await userService.getAllUsers();
+      const response = await userService.createUser(formData);
+      console.log(response);
       setSuccess(true);
       setFormData({
         firstName: "",
@@ -43,7 +46,7 @@ const RegPage = () => {
       <h1>Регистрация</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Имя:</label>
+          <label>Ім'я:</label>
           <input
             type="text"
             name="firstName"
@@ -53,7 +56,7 @@ const RegPage = () => {
           />
         </div>
         <div>
-          <label>Фамилия:</label>
+          <label>Прізвище:</label>
           <input
             type="text"
             name="lastName"
@@ -63,7 +66,7 @@ const RegPage = () => {
           />
         </div>
         <div>
-          <label>Электронная почта:</label>
+          <label>Ел. Пошта:</label>
           <input
             type="email"
             name="email"
@@ -82,7 +85,7 @@ const RegPage = () => {
             required
           />
         </div>
-        <button type="submit">Зарегистрироваться</button>
+        <button type="submit">Зареєструватись</button>
       </form>
       {success && <p>Регистрация прошла успешно!</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
