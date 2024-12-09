@@ -36,7 +36,6 @@ const RegPage = () => {
         email: "",
         password: "",
       });
-
       navigate("/login");
     } catch (err) {
       setError(

@@ -31,6 +31,7 @@ const LoginPage = () => {
     
     if(response){
       setToken(response.token)
+
     }
   };
 
