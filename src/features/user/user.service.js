@@ -1,4 +1,6 @@
 import { HttpClient } from "../../utils/http/httpClient";
+import { parseJwt } from "../../utils/jwt/decoder";
+import { getToken } from "../../utils/localStorage";
 
 export class UserService {
   constructor(signal) {
@@ -13,11 +15,24 @@ export class UserService {
     return await this.httpClient.get("");
   }
 
+  async getUserById(id) {
+    return await this.httpClient.get(`/${id}`);
+  }
+
+  getUserProfile() {
+    const token = getToken();
+    return parseJwt(token);
+  }
+
   async createUser(user) {
     return await this.httpClient.post("", user);
   }
 
   async deleteUserById(id) {
     return await this.httpClient.delete(`/${id}`);
+  }
+
+  async loginUser(data) {
+    return await this.httpClient.post("/login", data);
   }
 }

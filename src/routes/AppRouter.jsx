@@ -8,9 +8,9 @@ import ServicePage from "../features/services/ServicePage";
 const AppRouter = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="registration" element={<RegPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/registration" element={<RegPage />} />
       <Route path="/category" element={<CategoryPage />} />
       <Route path="/service" element={<ServicePage />} />
     </Routes>

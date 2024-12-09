@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserService } from "../user/user.service";
 
 const RegPage = () => {
@@ -11,6 +12,7 @@ const RegPage = () => {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +36,7 @@ const RegPage = () => {
         email: "",
         password: "",
       });
+      navigate("/login");
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Please try again."
@@ -43,7 +46,7 @@ const RegPage = () => {
 
   return (
     <div>
-      <h1>Регистрация</h1>
+      <h1>Реєстрація</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Ім'я:</label>
@@ -87,7 +90,7 @@ const RegPage = () => {
         </div>
         <button type="submit">Зареєструватись</button>
       </form>
-      {success && <p>Регистрация прошла успешно!</p>}
+      {success && <p>Реєстрація пройшлв успішно!</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
