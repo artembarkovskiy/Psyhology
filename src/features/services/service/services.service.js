@@ -16,4 +16,8 @@ export class ServicesService {
   async createServices(service) {
     return await this.httpClient.post("", service);
   }
+
+  async deleteServiceById(id) {
+    return await this.httpClient.delete(`/${id}`);
+  }
 }
