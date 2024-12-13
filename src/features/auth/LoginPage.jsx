@@ -32,10 +32,18 @@ const LoginPage = () => {
     if(response){
       setToken(response.token)
 
+<<<<<<< Updated upstream
+=======
+    if (response && response.token) {
+      setToken(response.token);
+      navigate("/"); 
+    } else {
+      alert("Login failed. Please check your credentials.");
+>>>>>>> Stashed changes
     }
   };
 
-  // Обробник для переходу на сторінку реєстрації
+  
   const handleRegisterRedirect = () => {
     navigate("/register");
   };
