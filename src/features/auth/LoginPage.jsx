@@ -29,6 +29,7 @@ const LoginPage = () => {
 
     console.log(response);
 
+
     if (response && response.token) {
       setToken(response.token);
       navigate("/"); // Перенаправлення на сторінку /home
@@ -37,7 +38,7 @@ const LoginPage = () => {
     }
   };
 
-  // Обробник для переходу на сторінку реєстрації
+  
   const handleRegisterRedirect = () => {
     navigate("/registration");
   };
