@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../user/user.service";
+import { useNotification } from "../notifications/hooks/useNotification";
 
 const RegPage = () => {
   const [formData, setFormData] = useState({
@@ -10,10 +11,8 @@ const RegPage = () => {
     password: "",
   });
 
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
-
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,25 +21,28 @@ const RegPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
 
     try {
       const userService = new UserService();
       await userService.getAllUsers();
       const response = await userService.createUser(formData);
       console.log(response);
-      setSuccess(true);
+
+      addNotification("Реєстрація пройшла успішно!", "success");
+
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
       });
+
       navigate("/login");
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Registration failed. Please try again."
+      addNotification(
+        err.response?.data?.message ||
+          "Реєстрація не вдалася. Спробуйте ще раз.",
+        "error"
       );
     }
   };
@@ -91,8 +93,6 @@ const RegPage = () => {
         </div>
         <button type="submit">Зареєструватись</button>
       </form>
-      {success && <p>Реєстрація пройшлв успішно!</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

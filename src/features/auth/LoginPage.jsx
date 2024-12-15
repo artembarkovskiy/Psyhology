@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../user/user.service";
 import { setToken } from "../../utils/localStorage";
+import { useNotification } from "../notifications/hooks/useNotification";
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { addNotification } = useNotification();
 
   const handleEmailInputChange = (event) => {
     setEmail(event.target.value);
@@ -20,25 +22,31 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userService = new UserService();
+    try {
+      const userService = new UserService();
+      const response = await userService.loginUser({
+        email: email,
+        password: password,
+      });
 
-    const response = await userService.loginUser({
-      email: email,
-      password: password,
-    });
-
-    console.log(response);
-
-
-    if (response && response.token) {
-      setToken(response.token);
-      navigate("/"); // Перенаправлення на сторінку /home
-    } else {
-      alert("Login failed. Please check your credentials.");
+      if (response && response.token) {
+        setToken(response.token);
+        addNotification("Ви успішно увійшли в систему!", "success");
+        navigate("/");
+      } else {
+        addNotification(
+          "Login failed. Please check your credentials.",
+          "error"
+        );
+      }
+    } catch (error) {
+      addNotification(
+        error.response?.data?.message || "Помилка входу. Спробуйте ще раз.",
+        "error"
+      );
     }
   };
 
-  
   const handleRegisterRedirect = () => {
     navigate("/registration");
   };
@@ -69,6 +77,7 @@ const LoginPage = () => {
               type="email"
               value={email}
               onChange={handleEmailInputChange}
+              required
             />
           </div>
           <div>
@@ -79,6 +88,7 @@ const LoginPage = () => {
               type="password"
               value={password}
               onChange={handlePasswordInputChange}
+              required
             />
           </div>
           <button type="submit">Login</button>
