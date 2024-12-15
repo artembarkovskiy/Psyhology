@@ -20,32 +20,27 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const userService = new UserService()
+    const userService = new UserService();
 
     const response = await userService.loginUser({
-      email:email, 
-      password:password
-    })
+      email: email,
+      password: password,
+    });
 
-    console.log(response)
-    
-    if(response){
-      setToken(response.token)
+    console.log(response);
 
-<<<<<<< Updated upstream
-=======
+
     if (response && response.token) {
       setToken(response.token);
-      navigate("/"); 
+      navigate("/"); // Перенаправлення на сторінку /home
     } else {
       alert("Login failed. Please check your credentials.");
->>>>>>> Stashed changes
     }
   };
 
   
   const handleRegisterRedirect = () => {
-    navigate("/register");
+    navigate("/registration");
   };
 
   return (

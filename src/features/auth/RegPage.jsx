@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { UserService } from "../user/user.service";
 
 const RegPage = () => {
@@ -12,7 +12,8 @@ const RegPage = () => {
 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate(); 
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +47,7 @@ const RegPage = () => {
 
   return (
     <div>
-      <h1>Регистрация</h1>
+      <h1>Реєстрація</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Ім'я:</label>

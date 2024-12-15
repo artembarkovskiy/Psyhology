@@ -1,105 +1,113 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ServicesService } from "./service/services.service";
+import ServiceTable from "./component/ServiceTable";
 
 const ServicePage = () => {
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [newService, setNewService] = useState({
+    serviceName: "",
+    serviceDescription: "",
+    timeOfService: "",
+    price: 0,
+  });
 
-  const servicesService = new ServicesService();
+  const serviceService = new ServicesService();
 
+  // Завантажуємо всі сервіси при першому рендері
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const data = await servicesService.getAllServices();
-        setServices(data);
-        setLoading(false);
-      } catch (err) {
-        setError("Не вдалося завантажити послуги.");
-        setLoading(false);
+        const fetchedServices = await serviceService.getAllServices();
+        setServices(fetchedServices);
+      } catch (error) {
+        console.error("Помилка при завантаженні сервісів:", error);
       }
     };
-
     fetchServices();
   }, []);
 
-  if (loading) return <p>Завантаження...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  const handleCreateService = async (e) => {
+    e.preventDefault();
+
+    // Перевірка на коректність введених даних
+    if (
+      !newService.serviceName ||
+      !newService.serviceDescription ||
+      !newService.timeOfService ||
+      isNaN(newService.price) ||
+      newService.price <= 0
+    ) {
+      alert("Будь ласка, заповніть всі поля коректно.");
+      return;
+    }
+
+    try {
+      const createdService = await serviceService.createServices(newService);
+      setServices([...services, createdService]);
+      setNewService({
+        serviceName: "",
+        serviceDescription: "",
+        timeOfService: "",
+        price: 0,
+      });
+    } catch (error) {
+      console.error("Помилка при додаванні сервісу:", error);
+    }
+  };
+
+  const handleDeleteService = async (id) => {
+    try {
+      await serviceService.deleteServiceById(id);
+      setServices(services.filter((service) => service.id !== id));
+    } catch (error) {
+      console.error("Помилка при видаленні сервісу:", error);
+    }
+  };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Послуги</h1>
-
-      {/* Список сервісів */}
-      <div style={styles.servicesList}>
-        {services.map((service) => (
-          <div key={service.id} style={styles.serviceCard}>
-            <h2>{service.serviceName}</h2>
-            <p>{service.serviceDescription}</p>
-            <p>
-              Тривалість: <strong>{service.timeOfService}</strong>
-            </p>
-            <p>
-              Ціна: <strong>{service.price} грн</strong>
-            </p>
-          </div>
-        ))}
-      </div>
+    <div>
+      <h1>Сервіси</h1>
+      <form onSubmit={handleCreateService}>
+        <input
+          type="text"
+          placeholder="Назва сервісу"
+          value={newService.serviceName}
+          onChange={(e) =>
+            setNewService({ ...newService, serviceName: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Опис сервісу"
+          value={newService.serviceDescription}
+          onChange={(e) =>
+            setNewService({ ...newService, serviceDescription: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Тривалість сервісу"
+          value={newService.timeOfService}
+          onChange={(e) =>
+            setNewService({ ...newService, timeOfService: e.target.value })
+          }
+        />
+        <input
+          type="number"
+          placeholder="Ціна"
+          value={newService.price || ""}
+          onChange={(e) =>
+            setNewService({
+              ...newService,
+              price: e.target.value ? parseFloat(e.target.value) : 0,
+            })
+          }
+        />
+        <button type="submit">Додати сервіс</button>
+      </form>
+      <ServiceTable services={services} onDelete={handleDeleteService} />
     </div>
   );
-};
-
-const styles = {
-  container: {
-    padding: "20px",
-    maxWidth: "800px",
-    margin: "0 auto",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: "2rem",
-    marginBottom: "20px",
-  },
-  servicesList: {
-    marginBottom: "40px",
-  },
-  serviceCard: {
-    border: "1px solid #ddd",
-    padding: "15px",
-    borderRadius: "5px",
-    marginBottom: "10px",
-    backgroundColor: "black",
-  },
-  formContainer: {
-    border: "1px solid #ddd",
-    padding: "20px",
-    borderRadius: "5px",
-    backgroundColor: "#f4f4f4",
-  },
-  input: {
-    display: "block",
-    width: "100%",
-    margin: "10px 0",
-    padding: "8px",
-    fontSize: "16px",
-  },
-  textarea: {
-    display: "block",
-    width: "100%",
-    margin: "10px 0",
-    padding: "8px",
-    fontSize: "16px",
-    minHeight: "80px",
-  },
-  addButton: {
-    padding: "10px 20px",
-    fontSize: "16px",
-    backgroundColor: "#4caf50",
-    color: "#fff",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
 };
 
 export default ServicePage;
